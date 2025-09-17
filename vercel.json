@@ -10,6 +10,22 @@
             "dest": "/public/build/$1"
         },
         {
+            "src": "/css/(.*)",
+            "dest": "/public/css/$1"
+        },
+        {
+            "src": "/js/(.*)",
+            "dest": "/public/js/$1"
+        },
+        {
+            "src": "/fonts/(.*)",
+            "dest": "/public/fonts/$1"
+        },
+        {
+            "src": "/vendor/(.*)",
+            "dest": "/public/vendor/$1"
+        },
+        {
             "src": "/(.*\\.(?:css|js|png|jpg|jpeg|gif|svg|ico|ttf|woff|woff2|eot|otf|webp|avif|txt))$",
             "dest": "/public/$1"
         },
@@ -21,8 +37,8 @@
     "outputDirectory": "public",
     "env": {
         "APP_ENV": "production",
-        "APP_DEBUG": "true",
-        "APP_URL": "inventory-seven-chi.vercel.app",
+        "APP_DEBUG": "false",
+        "APP_URL": "https://inventory-seven-chi.vercel.app",
         "APP_KEY": "base64:iRCvAJ7KCd0pOiywfHJSc0Fr/qfmgowABa+dRpUZoEo=",
         "APP_CONFIG_CACHE": "/tmp/config.php",
         "APP_EVENTS_CACHE": "/tmp/events.php",
@@ -33,10 +49,12 @@
         "CACHE_DRIVER": "array",
         "LOG_CHANNEL": "stderr",
         "SESSION_DRIVER": "cookie",
-        "QUEUE_CONNECTION":"database",
+        "QUEUE_CONNECTION": "database",
         "DB_CONNECTION": "d1",
         "CLOUDFLARE_D1_DATABASE_ID": "4adebc36-70a2-473f-ae64-599616e21fbf",
         "CLOUDFLARE_TOKEN": "Xhtsvri1rgzXBKTkAnx7fD72GtwluF8y8xWjXe2O",
-        "CLOUDFLARE_ACCOUNT_ID": "b2c7af554f7c4e5a520aacec3748cb48"
+        "CLOUDFLARE_ACCOUNT_ID": "b2c7af554f7c4e5a520aacec3748cb48",
+        "VITE_APP_NAME": "Book SMS",
+        "VITE_APP_ENV": "production"
     }
 }
