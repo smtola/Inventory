@@ -25,5 +25,16 @@ class AppServiceProvider extends ServiceProvider
     {
         Product::observe(ProductObserver::class);
         User::observe(UserObserver::class);
+        
+        // Ensure proper asset URL for production and Vercel
+        $appUrl = config('app.url');
+        if (str_contains($appUrl, 'vercel.app') || app()->environment('production')) {
+            // Force HTTPS for Vercel
+            if (!str_starts_with($appUrl, 'https://')) {
+                $appUrl = 'https://' . ltrim($appUrl, 'https://');
+            }
+            \Illuminate\Support\Facades\URL::forceRootUrl($appUrl);
+            \Illuminate\Support\Facades\URL::forceScheme('https');
+        }
     }
 }
