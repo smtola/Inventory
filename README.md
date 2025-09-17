@@ -1,158 +1,271 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Book SMS - Stock Management System
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A comprehensive Laravel-based Stock Management System (SMS) built with Filament admin panel for managing books, inventory, sales, purchases, and customer relationships.
 
-## Book SMS - Admin Panel (Filament)
+## 🚀 Features
 
-Admin panel built with Filament for managing products, categories, suppliers, customers, purchases, sales, and expenses. Includes strong authentication (email verification) and a dashboard with charts.
+### Core Functionality
+- **Product Management**: Complete product catalog with variants, categories, and inventory tracking
+- **Inventory Control**: Real-time stock tracking with warehouse management
+- **Sales Management**: Customer sales processing with detailed reporting
+- **Purchase Management**: Supplier purchase order processing and tracking
+- **Customer & Supplier Management**: Comprehensive contact and relationship management
+- **Financial Tracking**: Expense management and financial reporting
+- **Audit Logging**: Complete activity tracking for compliance and security
 
-### Requirements
+### Admin Interface
+- **Modern UI**: Built with Filament v3 for a beautiful, responsive admin panel
+- **Role-based Access**: User roles and permissions system
+- **Data Visualization**: Apex Charts integration for analytics and reporting
+- **Real-time Updates**: Livewire-powered dynamic interfaces
 
-- PHP 8.2+
+## 🛠️ Technology Stack
+
+- **Backend**: Laravel 12.x (PHP 8.2+)
+- **Admin Panel**: Filament 3.3
+- **Frontend**: Livewire 3.6
+- **Charts**: Apex Charts (via leandrocfe/filament-apex-charts)
+- **Database**: MySQL/PostgreSQL/SQLite
+- **Real-time**: Pusher integration
+- **Testing**: PHPUnit with Laravel testing suite
+
+## 📋 Prerequisites
+
+- PHP 8.2 or higher
 - Composer
-- Node.js 18+
-- MySQL/PostgreSQL/SQLite
+- Node.js & NPM
+- MySQL/PostgreSQL/SQLite database
+- Web server (Apache/Nginx) or PHP built-in server
 
-### Setup
+## 🚀 Installation
 
-```bash
-cp .env.example .env
-php artisan key:generate
-composer install
-php artisan migrate --seed
-php artisan make:filament-user
-npm install && npm run build
+1. **Clone the repository**
+   ```bash
+   git clone <repository-url>
+   cd book_sms
+   ```
+
+2. **Install PHP dependencies**
+   ```bash
+   composer install
+   ```
+
+3. **Install Node.js dependencies**
+   ```bash
+   npm install
+   ```
+
+4. **Environment setup**
+   ```bash
+   cp .env.example .env
+   php artisan key:generate
+   ```
+
+5. **Database configuration**
+   - Update your `.env` file with database credentials
+   - Create your database
+   - Run migrations:
+     ```bash
+     php artisan migrate
+     ```
+
+6. **Seed the database (optional)**
+   ```bash
+   php artisan db:seed
+   ```
+
+7. **Build assets**
+   ```bash
+   npm run build
+   ```
+
+8. **Start the development server**
+   ```bash
+   php artisan serve
+   ```
+
+   Or use the development script with multiple services:
+   ```bash
+   composer run dev
+   ```
+
+## 🗄️ Database Schema
+
+The system includes a comprehensive database schema with the following main entities:
+
+### Core Entities
+- **Users & Roles**: User management with role-based permissions
+- **Customers & Suppliers**: Contact management for business relationships
+- **Products & Categories**: Product catalog with categorization
+- **Warehouses**: Multi-location inventory management
+
+### Transaction Entities
+- **Orders**: Purchase and sales order management
+- **Purchases & Sales**: Transaction processing with detailed line items
+- **Stock Movements**: Inventory tracking and adjustments
+- **Expenses**: Financial expense tracking
+
+### Audit & Logging
+- **Audit Logs**: Complete activity tracking for compliance
+
+For detailed database schema, see [database_schema_diagram.md](database_schema_diagram.md)
+
+## 🎯 Key Features Breakdown
+
+### Product Management
+- SKU-based product identification
+- Barcode support
+- Product variants (size, color, etc.)
+- Category organization
+- Expiry date tracking
+- Multi-warehouse inventory
+
+### Inventory Control
+- Real-time stock levels
+- Stock movement tracking
+- Warehouse management
+- Low stock alerts
+- Inventory adjustments
+
+### Sales & Purchasing
+- Customer sales processing
+- Supplier purchase orders
+- Order status tracking
+- Reference number generation
+- Financial calculations
+
+### Reporting & Analytics
+- Sales reports
+- Inventory reports
+- Financial summaries
+- Apex Charts integration
+- Export capabilities
+
+## 🔧 Configuration
+
+### Environment Variables
+Key environment variables to configure:
+
+```env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=book_sms
+DB_USERNAME=your_username
+DB_PASSWORD=your_password
+
+PUSHER_APP_ID=your_pusher_id
+PUSHER_APP_KEY=your_pusher_key
+PUSHER_APP_SECRET=your_pusher_secret
+PUSHER_APP_CLUSTER=your_pusher_cluster
 ```
 
-Visit `/admin` to log in.
+### Filament Configuration
+The admin panel is configured in `config/filament.php` with custom branding and navigation.
 
-### Strong Auth
+## 🧪 Testing
 
-- Email verification is enabled. Users must verify before accessing the panel.
-- Passwords are hashed and validated in the `UserResource` create/edit forms.
+Run the test suite:
+```bash
+composer run test
+```
 
-### Dashboard UI with Charts
+Or run specific tests:
+```bash
+php artisan test
+```
 
-The dashboard includes three line charts for the last 7 days:
+## 📦 Available Commands
 
-- Sales: `App\\Filament\\Widgets\\SalesOverviewChart`
-- Purchases: `App\\Filament\\Widgets\\PurchasesOverviewChart`
-- Expenses: `App\\Filament\\Widgets\\ExpensesOverviewChart`
+### Development
+- `composer run dev` - Start development server with all services
+- `php artisan serve` - Start Laravel development server
+- `npm run dev` - Start Vite development server
+- `php artisan queue:listen` - Start queue worker
 
-These are registered in `App\\Providers\\Filament\\AdminPanelProvider`.
+### Database
+- `php artisan migrate` - Run database migrations
+- `php artisan migrate:fresh --seed` - Fresh migration with seeding
+- `php artisan db:seed` - Run database seeders
 
-### Filament Resources
+### Filament
+- `php artisan filament:upgrade` - Upgrade Filament components
+- `php artisan make:filament-resource` - Create new Filament resource
 
-- Users: `App\\Filament\\Resources\\UserResource`
-- Products: `App\\Filament\\Resources\\ProductResource`
-- Categories: `App\\Filament\\Resources\\CategoryResource`
-- Customers: `App\\Filament\\Resources\\CustomerResource`
-- Suppliers: `App\\Filament\\Resources\\SupplierResource`
+## 🏗️ Project Structure
 
-Each resource provides CRUD with searchable/sortable tables and validated forms.
-
-### Project Structure
-
-```text
+```
 app/
-  Filament/
-    Resources/
-      CategoryResource.php
-      CustomerResource.php
-      ProductResource.php
-      SupplierResource.php
-      UserResource.php
-    Widgets/
-      ExpensesOverviewChart.php
-      PurchasesOverviewChart.php
-      SalesOverviewChart.php
-  Http/
-    Controllers/
-  Models/
-    Category.php
-    Customer.php
-    Expense.php
-    Product.php
-    Purchase.php
-    Sale.php
-    Supplier.php
-    User.php
-    Warehouse.php
-  Providers/
-    Filament/
-      AdminPanelProvider.php
+├── Console/           # Artisan commands
+├── Filament/          # Admin panel resources
+│   ├── Pages/         # Custom pages
+│   ├── Resources/     # CRUD resources
+│   └── Widgets/       # Dashboard widgets
+├── Http/Controllers/  # Web controllers
+├── Models/            # Eloquent models
+├── Observers/         # Model observers
+└── Providers/         # Service providers
 
 database/
-  migrations/
-  seeders/
+├── factories/         # Model factories
+├── migrations/        # Database migrations
+└── seeders/          # Database seeders
 
-routes/
-  web.php
+resources/
+├── css/              # Stylesheets
+├── js/               # JavaScript assets
+└── views/            # Blade templates
 ```
 
-## Learning Laravel
+## 🔐 Security Features
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+- **Role-based Access Control**: Granular permissions system
+- **Audit Logging**: Complete activity tracking
+- **CSRF Protection**: Built-in Laravel security
+- **Input Validation**: Comprehensive data validation
+- **SQL Injection Protection**: Eloquent ORM protection
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+## 🚀 Deployment
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### Production Setup
+1. Set `APP_ENV=production` in `.env`
+2. Run `php artisan config:cache`
+3. Run `php artisan route:cache`
+4. Run `php artisan view:cache`
+5. Build production assets: `npm run build`
+6. Configure web server to serve from `public/` directory
 
-## Laravel Sponsors
+### Environment Requirements
+- PHP 8.2+
+- Composer
+- Node.js 16+
+- MySQL 8.0+ or PostgreSQL 12+
+- Web server (Apache/Nginx)
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+## 🤝 Contributing
 
-### Premium Partners
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Add tests for new functionality
+5. Submit a pull request
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+## 📄 License
 
-## Contributing
+This project is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## 🆘 Support
 
-## Code of Conduct
+For support and questions:
+- Check the Laravel documentation: https://laravel.com/docs
+- Check the Filament documentation: https://filamentphp.com/docs
+- Create an issue in the repository
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## 🔄 Version History
 
-## Security Vulnerabilities
+- **v1.0.0** - Initial release with core SMS functionality
+- Built with Laravel 12.x and Filament 3.3
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+---
 
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
-
-
-#Factories
-AuditLog
-categories
-customers
-expenses
-order_items
-orders
-product_variants
-products
-purchase_items
-purchases
-roles
-sale_items
-sales
-stock_movements
-supplier_products
-suppliers
-warehouses
-users
-
-#migrations
+**Note**: This is a comprehensive stock management system designed for book retailers and general inventory management. The system provides a complete solution for managing products, customers, suppliers, sales, and inventory with a modern, user-friendly interface.

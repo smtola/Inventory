@@ -16,30 +16,19 @@ return new class extends Migration
             if (!Schema::hasColumn('audit_logs', 'user_id')) {
                 $table->unsignedBigInteger('user_id')->nullable()->after('id');
             }
+        });
 
-            // Check if foreign key already exists before adding it
-            if (!$this->foreignKeyExists('audit_logs', 'audit_logs_user_id_foreign')) {
+        // Add foreign key in a separate operation with error handling
+        Schema::table('audit_logs', function (Blueprint $table) {
+            try {
                 $table->foreign('user_id')
                     ->references('id')
                     ->on('users')
                     ->nullOnDelete();
+            } catch (Exception $e) {
+                // Foreign key might already exist, continue
             }
         });
-    }
-
-    private function foreignKeyExists($table, $constraintName)
-    {
-        $connection = Schema::getConnection();
-        $database = $connection->getDatabaseName();
-        
-        $query = "SELECT CONSTRAINT_NAME 
-                  FROM information_schema.KEY_COLUMN_USAGE 
-                  WHERE TABLE_SCHEMA = ? 
-                  AND TABLE_NAME = ? 
-                  AND CONSTRAINT_NAME = ?";
-        
-        $result = $connection->select($query, [$database, $table, $constraintName]);
-        return count($result) > 0;
     }
 
     /**
@@ -48,7 +37,11 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('audit_logs', function (Blueprint $table) {
-            $table->dropForeign(['user_id']);
+            try {
+                $table->dropForeign(['user_id']);
+            } catch (Exception $e) {
+                // Foreign key might not exist, continue
+            }
         });
     }
 };

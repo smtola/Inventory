@@ -12,36 +12,25 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('stock_movements', function (Blueprint $table) {
-            // Check if foreign keys already exist before adding them
-            if (!$this->foreignKeyExists('stock_movements', 'stock_movements_product_id_foreign')) {
+            // Add foreign keys with proper error handling
+            try {
                 $table->foreign('product_id')
                     ->references('id')
                     ->on('products')
                     ->onDelete('cascade');
+            } catch (Exception $e) {
+                // Foreign key might already exist, continue
             }
 
-            if (!$this->foreignKeyExists('stock_movements', 'stock_movements_user_id_foreign')) {
+            try {
                 $table->foreign('user_id')
                     ->references('id')
                     ->on('users')
                     ->nullOnDelete();
+            } catch (Exception $e) {
+                // Foreign key might already exist, continue
             }
         });
-    }
-
-    private function foreignKeyExists($table, $constraintName)
-    {
-        $connection = Schema::getConnection();
-        $database = $connection->getDatabaseName();
-        
-        $query = "SELECT CONSTRAINT_NAME 
-                  FROM information_schema.KEY_COLUMN_USAGE 
-                  WHERE TABLE_SCHEMA = ? 
-                  AND TABLE_NAME = ? 
-                  AND CONSTRAINT_NAME = ?";
-        
-        $result = $connection->select($query, [$database, $table, $constraintName]);
-        return count($result) > 0;
     }
 
     /**
@@ -50,8 +39,17 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('stock_movements', function (Blueprint $table) {
-            $table->dropForeign(['product_id']);
-            $table->dropForeign(['user_id']);
+            try {
+                $table->dropForeign(['product_id']);
+            } catch (Exception $e) {
+                // Foreign key might not exist, continue
+            }
+
+            try {
+                $table->dropForeign(['user_id']);
+            } catch (Exception $e) {
+                // Foreign key might not exist, continue
+            }
         });
     }
 };
