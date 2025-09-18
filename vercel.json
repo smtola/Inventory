@@ -2,44 +2,44 @@
     "version": 2,
     "framework": null,
     "functions": {
-    "public/index.php": { "runtime": "vercel-php@0.7.3" }
-    },
-    "routes": [
-    {
-        "src": "/build/(.*)",
-        "dest": "/public/build/$1",
-        "headers": { "Cache-Control": "public, max-age=31536000, immutable" }
-    },
-    {
-        "src": "/css/(.*)",
-        "dest": "/public/css/$1",
-        "headers": { "Cache-Control": "public, max-age=31536000, immutable" }
-    },
-    {
-        "src": "/js/(.*)",
-        "dest": "/public/js/$1",
-        "headers": { "Cache-Control": "public, max-age=31536000, immutable" }
-    },
-    {
-        "src": "/fonts/(.*)",
-        "dest": "/public/fonts/$1",
-        "headers": { "Cache-Control": "public, max-age=31536000, immutable" }
-    },
-    {
-        "src": "/vendor/(.*)",
-        "dest": "/public/vendor/$1",
-        "headers": { "Cache-Control": "public, max-age=31536000, immutable" }
-    },
-    {
-        "src": "/(.*\\.(?:css|js|png|jpg|jpeg|gif|svg|ico|ttf|woff|woff2|eot|otf|webp|avif|txt))$",
-        "dest": "/public/$1",
-        "headers": { "Cache-Control": "public, max-age=31536000, immutable" }
-    },
-    {
-        "src": "/(.*)",
-        "dest": "/public/index.php"
-    }
-    ],
+        "api/index.php": { "runtime": "vercel-php@0.7.3" }
+      },
+      "routes": [
+        {
+          "src": "/build/(.*)",
+          "dest": "/public/build/$1",
+          "headers": { "Cache-Control": "public, max-age=31536000, immutable" }
+        },
+        {
+          "src": "/css/(.*)",
+          "dest": "/public/css/$1",
+          "headers": { "Cache-Control": "public, max-age=31536000, immutable" }
+        },
+        {
+          "src": "/js/(.*)",
+          "dest": "/public/js/$1",
+          "headers": { "Cache-Control": "public, max-age=31536000, immutable" }
+        },
+        {
+          "src": "/fonts/(.*)",
+          "dest": "/public/fonts/$1",
+          "headers": { "Cache-Control": "public, max-age=31536000, immutable" }
+        },
+        {
+          "src": "/vendor/(.*)",
+          "dest": "/public/vendor/$1",
+          "headers": { "Cache-Control": "public, max-age=31536000, immutable" }
+        },
+        {
+          "src": "/(.*\\.(?:css|js|png|jpg|jpeg|gif|svg|ico|ttf|woff|woff2|eot|otf|webp|avif|txt))$",
+          "dest": "/public/$1",
+          "headers": { "Cache-Control": "public, max-age=31536000, immutable" }
+        },
+        {
+          "src": "/(.*)",
+          "dest": "/api/index.php"
+        }
+      ],
     "outputDirectory": "public",
     "env": {
         "APP_ENV": "production",
