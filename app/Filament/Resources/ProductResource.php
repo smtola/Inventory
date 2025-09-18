@@ -25,10 +25,31 @@ class ProductResource extends Resource
         return $form->schema([
             Forms\Components\TextInput::make('name')->required(),
             Forms\Components\TextInput::make('sku')->required()->unique(ignoreRecord: true),
+            Forms\Components\FileUpload::make('image_local')
+                ->label('Upload Image (uploads to Cloudflare)')
+                ->image()
+                ->directory('tmp/products')
+                ->preserveFilenames()
+                ->getUploadedFileNameForStorageUsing(fn($file) => $file->getClientOriginalName())
+                ->required(false)
+                ->helperText('Choose a local image; it will upload to Cloudflare and save URL.')
+                ->afterStateUpdated(function ($state, callable $set) {
+                    if (! $state) { return; }
+                    try {
+                        $uploader = app(\App\Services\CloudflareImages::class);
+                        $result = $uploader->upload($state);
+                        $set('image_url', $result['url'] ?? null);
+                        $set('cf_image_id', $result['id'] ?? null);
+                    } catch (\Throwable $e) {
+                        // Ignore upload errors here; edit/create pages will also attempt on save
+                    }
+                }),
             Forms\Components\Select::make('category_id')
                 ->relationship('category', 'name')
                 ->required(),
             Forms\Components\TextInput::make('brand'),
+            Forms\Components\Hidden::make('image_url'),
+            Forms\Components\Hidden::make('cf_image_id'),
             Forms\Components\TextInput::make('unit_price')->numeric()->required(),
             Forms\Components\TextInput::make('cost_price')->numeric(),
             Forms\Components\TextInput::make('quantity_available')->numeric(),
@@ -42,6 +63,7 @@ class ProductResource extends Resource
     public static function table(\Filament\Tables\Table $table): \Filament\Tables\Table{
         return $table
             ->columns([
+                Tables\Columns\ImageColumn::make('image_url')->label('Image')->square()->size(40),
                 Tables\Columns\TextColumn::make('id')->sortable(),
                 Tables\Columns\TextColumn::make('name')->searchable(),
                 Tables\Columns\TextColumn::make('sku')->searchable(),

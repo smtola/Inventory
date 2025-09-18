@@ -98,4 +98,7 @@ return [
 
     'system_route_prefix' => 'filament',
 
+    'styles' => [
+        'app' => resource_path('css/app.css'),
+    ],
 ];

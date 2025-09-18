@@ -13,55 +13,33 @@ use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Leandrocfe\FilamentApexCharts\FilamentApexChartsPlugin;
+use Filament\Http\Middleware\DisableBladeIconComponents;
+use Filament\Http\Middleware\DispatchServingFilamentEvent;
 
 class AdminPanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
     {
         return $panel
+            ->default()
             ->id('admin')
             ->path('admin')
+            // Use local provider with no URL to prevent Bunny CDN link, keep Khmer font family
+            ->font('Noto Sans Khmer', null, \Filament\FontProviders\LocalFontProvider::class)
             ->login()
             ->passwordReset()
             ->profile()
             ->databaseNotifications()
-            ->navigationGroups([
-                'User Management',
-                'Inventory',
-                'Business Partners',
-                'Sales & Purchases',
-                'Finance & Reports',
-            ])
-            ->resources([
-                \App\Filament\Resources\UserResource::class,
-                \App\Filament\Resources\RoleResource::class,
-                \App\Filament\Resources\CategoryResource::class,
-                \App\Filament\Resources\ProductResource::class,
-                \App\Filament\Resources\CustomerResource::class,
-                \App\Filament\Resources\SupplierResource::class,
-                \App\Filament\Resources\SupplierProductResource::class,
-                \App\Filament\Resources\ProductVariantResource::class,
-                \App\Filament\Resources\OrderResource::class,
-                \App\Filament\Resources\OrderItemResource::class,
-                \App\Filament\Resources\PurchaseResource::class,
-                \App\Filament\Resources\PurchaseItemResource::class,
-                \App\Filament\Resources\SaleResource::class,
-                \App\Filament\Resources\SaleItemResource::class,
-                \App\Filament\Resources\WarehouseResource::class,
-                \App\Filament\Resources\StockMovementResource::class,
-                \App\Filament\Resources\ExpenseResource::class,
-                \App\Filament\Resources\AuditLogResource::class,
-            ])
+            ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
+            ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
+            ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
+            ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
             ->pages([
                 \App\Filament\Pages\DashboardPage::class,
             ])
-            ->widgets([
-                \App\Filament\Widgets\SalesOverviewChart::class,
-                \App\Filament\Widgets\PurchasesOverviewChart::class,
-                \App\Filament\Widgets\ExpensesOverviewChart::class,
-                \App\Filament\Widgets\StatsOverview::class,
-                \App\Filament\Widgets\LowStockProductsWidget::class,
-            ])
+            
+            ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
+            
             ->middleware([
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,
@@ -70,6 +48,8 @@ class AdminPanelProvider extends PanelProvider
                 ShareErrorsFromSession::class,
                 VerifyCsrfToken::class,
                 SubstituteBindings::class,
+                DisableBladeIconComponents::class,
+                DispatchServingFilamentEvent::class,
             ])
             ->authMiddleware([
                 Authenticate::class,

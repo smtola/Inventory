@@ -4,12 +4,16 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use Filament\Facades\Filament;
 use Filament\Navigation\NavigationItem;
+use Illuminate\Support\Facades\Vite;
 
 class FilamentServiceProvider extends ServiceProvider
 {
     public function boot(): void
     {
         Filament::serving(function () {
+
+            // Register custom theme stylesheet via Vite
+            Filament::registerViteTheme('resources/css/filament/theme.css');
 
             // Register all navigation items with groups
             Filament::registerNavigationItems([

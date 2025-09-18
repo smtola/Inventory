@@ -269,3 +269,37 @@ For support and questions:
 ---
 
 **Note**: This is a comprehensive stock management system designed for book retailers and general inventory management. The system provides a complete solution for managing products, customers, suppliers, sales, and inventory with a modern, user-friendly interface.
+
+Step-by-step flow to use the system
+1) Log in
+Visit /admin
+Sign in with your admin account.
+2) Set up master data
+Warehouses: Add locations where you store stock.
+Categories: Create product categories.
+Suppliers: Add supplier records.
+Customers: Add customer records (optional now, required for sales).
+3) Create your catalog
+Products: Add products with SKU, price, and default warehouse.
+Variants (if needed): Sizes/colors/other options under each product.
+4) Bring in stock
+Purchases: Create a Purchase, select a Supplier, add items and quantities.
+Submit/mark as received to increase inventory in the chosen warehouse.
+5) Adjust inventory (optional)
+Stock Movements: Move stock between warehouses or correct counts.
+6) Sell to customers
+Sales: Create a Sale, choose a Customer, add items/quantities.
+Confirm to deduct stock and record revenue.
+7) Track expenses
+Expenses: Log operating costs (rent, utilities, shipping, etc.).
+8) Monitor and analyze
+Dashboard: View key widgets.
+Reports: Use resource lists (Sales, Purchases, Inventory) with filters/export.
+9) Manage users and access
+Users/Roles: Create users and assign roles/permissions as needed.
+10) Audit & review
+Audit Logs: Review who did what and when.
+11) Maintenance
+Back up database regularly.
+Keep environment variables/config up-to-date.
+Update dependencies as needed.
