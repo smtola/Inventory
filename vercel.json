@@ -69,6 +69,8 @@
         "CACHE_DRIVER": "array",
         "LOG_CHANNEL": "stderr",
         "SESSION_DRIVER": "cookie",
+        "SESSION_DOMAIN": "inventory-seven-chi.vercel.app",
+        "SESSION_SECURE_COOKIE": "true",
         "QUEUE_CONNECTION": "database",
         "DB_CONNECTION": "d1",
         "CLOUDFLARE_D1_DATABASE_ID": "4adebc36-70a2-473f-ae64-599616e21fbf",
