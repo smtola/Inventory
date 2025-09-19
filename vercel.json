@@ -43,7 +43,7 @@
     "outputDirectory": "public",
     "env": {
         "APP_ENV": "production",
-        "APP_DEBUG": "false",
+        "APP_DEBUG": "true",
         "APP_URL": "https://inventory-seven-chi.vercel.app",
         "ASSET_URL": "https://inventory-seven-chi.vercel.app",
         "APP_ASSET_URL": "https://inventory-seven-chi.vercel.app",
